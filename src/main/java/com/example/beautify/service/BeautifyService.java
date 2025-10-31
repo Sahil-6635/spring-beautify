@@ -49,10 +49,12 @@ public class BeautifyService {
 
             // Step 1: Unescape special characters (handles &lt;, &gt;, etc.)
             String unescaped = XmlEscape.unescapeXml(xmlInput.trim())
+                    .replace("\\n", "\n")
                     .replace("\\\"", "\"")
                     .replaceAll("(\\w+:[\\w-]+)=([^\"\\s>]+)", "$1=\"$2\"");
 
             // Step 2: Remove extra nested XML declarations
+            unescaped = unescaped.replaceAll("\\\\+", "");
             unescaped = unescaped.replaceAll("<\\?xml[^>]*\\?>", "");
 
             // Step 3: Detect XML version
