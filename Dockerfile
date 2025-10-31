@@ -8,7 +8,7 @@ RUN mvn dependency:go-offline -B
 
 # Copy source code and build the JAR
 COPY src ./src
-RUN mvn clean package -DskipTests
+RUN mvn clean package spring-boot:repackage -DskipTests
 
 # Step 2: Run the app
 FROM openjdk:8-jdk-alpine
