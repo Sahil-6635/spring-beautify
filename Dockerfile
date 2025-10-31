@@ -1,5 +1,5 @@
 # Step 1: Build the app using Maven
-FROM maven:3.8.8-openjdk-8 AS build
+FROM maven:3.9.6-eclipse-temurin-11 AS build
 WORKDIR /app
 
 # Copy pom.xml and download dependencies first (for caching)
@@ -8,7 +8,7 @@ RUN mvn dependency:go-offline -B
 
 # Copy source code and build the JAR
 COPY src ./src
-RUN mvn clean package -DskipTests
+RUN mvn clean package spring-boot:repackage -DskipTests
 
 # Step 2: Run the app
 FROM openjdk:8-jdk-alpine
