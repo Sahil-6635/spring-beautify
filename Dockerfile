@@ -1,5 +1,5 @@
 # Step 1: Build the app using Maven
-FROM maven:3.8.8-openjdk-8 AS build
+FROM maven:3.8.7-openjdk-8 AS build
 WORKDIR /app
 
 # Copy pom.xml and download dependencies first (for caching)
