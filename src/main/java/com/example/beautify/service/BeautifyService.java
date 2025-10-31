@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import org.springframework.stereotype.Service;
-import org.unbescape.xml.XmlEscape;
+import org.apache.commons.text.StringEscapeUtils;
 
 import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
@@ -47,14 +47,21 @@ public class BeautifyService {
                 return "❌ Empty XML input!";
             }
 
+            String cleanXml = StringEscapeUtils.unescapeJava(xmlInput.trim());
+            if (cleanXml.startsWith("\"") && cleanXml.endsWith("\"")) {
+                cleanXml = cleanXml.substring(1, cleanXml.length() - 1);
+            }
+
             // Step 1: Unescape special characters (handles &lt;, &gt;, etc.)
-            String unescaped = XmlEscape.unescapeXml(xmlInput.trim())
+            String unescaped = cleanXml
+                    .replaceAll("^\"|\"$", "")
                     .replace("\\n", "\n")
+                    .replace("\\t", "\t")
                     .replace("\\\"", "\"")
-                    .replaceAll("(\\w+:[\\w-]+)=([^\"\\s>]+)", "$1=\"$2\"");
+                    .replace("\\\\", "\\");
 
             // Step 2: Remove extra nested XML declarations
-            unescaped = unescaped.replaceAll("\\\\+", "");
+            unescaped = StringEscapeUtils.unescapeXml(unescaped.trim());
             unescaped = unescaped.replaceAll("<\\?xml[^>]*\\?>", "");
 
             // Step 3: Detect XML version
