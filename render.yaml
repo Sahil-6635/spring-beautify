@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: spring-beautify-api
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
