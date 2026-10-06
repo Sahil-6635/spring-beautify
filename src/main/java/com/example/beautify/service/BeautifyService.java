@@ -46,6 +46,7 @@ public class BeautifyService {
     public String beautifyJson(String jsonInput) {
         try {
             String cleaned = jsonInput.trim();
+            System.out.println("Json file");
 
             // Detect and clean escaped JSON (e.g. {\"key\":\"value\"})
             if (cleaned.startsWith("\"{") && cleaned.endsWith("}\"")) {
